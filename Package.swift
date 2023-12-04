@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9.1
+// swift-tools-version: 5.9.0
 import PackageDescription
 
 let package = Package(
@@ -8,14 +8,14 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "4.0.0")),
-        .package(url: "https://github.com/vapor-community/vapor-aws-lambda-runtime", .upToNextMajor(from: "0.4.0"))
+        .package(url: "https://github.com/jankammerath/vapor-aws-lambda-runtime", branch: "main"),
     ],
     targets: [
         .executableTarget(
             name: "ServerlessSwift", 
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                .product(name: "VaporAWSLambdaRuntime", package: "vapor-aws-lambda-runtime")
+                .product(name: "VaporAWSLambdaRuntime", package: "vapor-aws-lambda-runtime"),
             ],
             path: ".",
             exclude: ["Makefile", "template.yaml", "sam-launch.sh", "bootstrap"]
