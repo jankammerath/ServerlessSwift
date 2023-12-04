@@ -1,16 +1,19 @@
-import Vapor
-import VaporAWSLambdaRuntime
+import AWSLambdaEvents
+import AWSLambdaRuntime
+import NIO
 
-let app = Application()
+// MARK: - Run Lambda
 
-struct Pong: Content {
-    let pong: String
+// FIXME: Use proper Event abstractions once added to AWSLambdaRuntime
+@main
+struct APIGatewayProxyLambda: LambdaHandler {
+    typealias Event = APIGatewayRequest
+    typealias Output = APIGatewayResponse
+
+    init(context: LambdaInitializationContext) async throws {}
+
+    func handle(_ request: APIGatewayRequest, context: LambdaContext) async throws -> APIGatewayResponse {
+        context.logger.debug("hello, api gateway!")
+        return APIGatewayResponse(statusCode: .ok, body: "hello, world!")
+    }
 }
-
-app.get("ping") { (_) -> Pong in
-    Pong(pong: "hello")
-}
-
-app.servers.use(.lambda)
-
-try app.run()
