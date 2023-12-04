@@ -7,7 +7,7 @@ let package = Package(
         .executable(name: "ServerlessSwift", targets: ["ServerlessSwift"])
     ],
     dependencies: [
-        .package(url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "4.0.0")),
+        .package(url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "4.88.0")),
         .package(url: "https://github.com/swift-server/swift-aws-lambda-runtime.git", branch: "main"),
         .package(url: "https://github.com/swift-server/swift-aws-lambda-events.git", branch: "main"),
     ],
