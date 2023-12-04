@@ -43,7 +43,7 @@ struct APIGatewayProxyLambda: LambdaHandler {
         var headers = HTTPHeaders()
         var body: HTTPClient.Body?
 
-        print("Context http method is: " + request.Context.httpMethod)
+        let httpMethod = HTTPMethod(rawValue: request.requestContext.httpMethod)
 
         if let queryString = request.queryStringParameters {
             url += "?" + queryString.map { "\($0.key)=\($0.value)" }.joined(separator: "&")
@@ -60,7 +60,7 @@ struct APIGatewayProxyLambda: LambdaHandler {
             headers.add(name: key, value: value)
         }
 
-        let httpRequest = try HTTPClient.Request(url: url, method: .POST, headers: headers, body: body)
+        let httpRequest = try HTTPClient.Request(url: url, method: httpMethod, headers: headers, body: body)
         let response = try await client.execute(request: httpRequest).get()
 
         let bodyString = response.body!.getString(at: 0, length: response.body!.readableBytes)
