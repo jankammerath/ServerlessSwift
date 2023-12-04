@@ -18,7 +18,7 @@ let package = Package(
                 .product(name: "VaporAWSLambdaRuntime", package: "vapor-aws-lambda-runtime")
             ],
             path: ".",
-            exclude: ["Makefile", "template.yaml", "sam-launch.sh"]
+            exclude: ["Makefile", "template.yaml", "sam-launch.sh", "bootstrap"]
         ),
     ]
 )
