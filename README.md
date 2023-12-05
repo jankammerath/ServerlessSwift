@@ -17,9 +17,8 @@ sam local start-api --template template.yaml
 
 ## Sample logs
 
-The logs give an insight on the performance of the approx. 117 MB binary file within the Lambda. The Lambda cold start with the binary is a little less than 1 second. The log also shows how Vapor runs through the entire lifecycle of the Lambda and is reused for subsequent requests to the same Lambda container.
+The logs give an insight on the performance of the approx. 117 MB binary file within the Lambda. The Lambda cold start with the binary is a little less than 1 second. The log also shows how Vapor runs through the entire lifecycle of the Lambda and is reused for subsequent requests to the same Lambda container. The memory consumption of 39 MB on a 128 MB instance is perfectly in line with web frameworks of Vapor's scale (e.g. Go Gin). The logs do not show any reasonable performance impact of the usage of the loopback adapter in the VaporProxy class.
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 |   timestamp   |                                                                                 message                                                                                  |
 |---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 1701787103739 | INIT_START Runtime Version: provided:al2.v27 Runtime Version ARN: arn:aws:lambda:eu-central-1::runtime:2314d913d88add4107e4119c38e7eff2379525a1b70c242c2fbbd5f44af167a2  |
@@ -65,4 +64,3 @@ The logs give an insight on the performance of the approx. 117 MB binary file wi
 | 1701787127555 | 2023-12-05T14:38:47+0000 info codes.vapor.application : request-id=C265146E-89A9-4D36-AB33-FED4A169994F [Vapor] GET /                                                    |
 | 1701787127570 | END RequestId: 8d1b3dd6-dd75-43c1-987f-104a8214f3bc                                                                                                                      |
 | 1701787127570 | REPORT RequestId: 8d1b3dd6-dd75-43c1-987f-104a8214f3bc Duration: 16.09 ms Billed Duration: 17 ms Memory Size: 128 MB Max Memory Used: 40 MB                              |
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
