@@ -42,7 +42,7 @@ You can deploy the application to AWS using either AWS SAM or CloudFormation. Wi
 
 ## Performance
 
-The vapor integration curently uses the `AsyncHTTPClient` and thus the local loopback on the Lambda instance. Vapor is initialized when the Lambda container first starts making the cold start take around 800-900ms on a 128 MB arm64 container running Amazon Linux 2. There is no measurable performance impact on using the loopback adapter within the VaporProxy class that then sends the HTTP request to the vapor app running on port `8585``.
+The vapor integration curently uses the `AsyncHTTPClient` and thus the local [loopback](https://tldp.org/LDP/nag/node66.html) on the Lambda instance. Vapor is initialized when the Lambda container first starts making the cold start take around 800-900ms on a 128 MB arm64 container running Amazon Linux 2. There is no measurable performance impact on using the loopback adapter within the VaporProxy class that then sends the HTTP request to the vapor app running on port `8585`.
 
 ### Sample logs
 
