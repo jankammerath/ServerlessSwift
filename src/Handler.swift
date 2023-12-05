@@ -16,14 +16,12 @@ struct APIGatewayProxyLambda: LambdaHandler {
         print("Serverless Swift cold started!")
 
         let vaporProxy = VaporProxy.shared
-        if !vaporProxy.isRunning() {
-            let app = vaporProxy.app
-            app.get { req in
-                return HelloWorld(message: "Hello, world!")
-            }
-            
-            vaporProxy.start()
+        let app = VaporProxy.shared.app
+        app.get { req in
+            return HelloWorld(message: "Hello, world!")
         }
+            
+        VaporProxy.shared.start()
     }
 
     /*
