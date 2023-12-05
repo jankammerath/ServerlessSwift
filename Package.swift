@@ -25,7 +25,16 @@ let package = Package(
                 .product(name: "AWSLambdaEvents", package: "swift-aws-lambda-events"),
             ],
             path: ".",
-            exclude: ["Makefile", "template.yaml", "sam-launch.sh", "bootstrap"]
+            exclude: [
+                "Makefile",
+                "template.yaml",
+                "sam-launch.sh",
+                "bootstrap",
+                "bin/bootstrap",
+                "LICENSE.txt",
+                "samconfig.toml",
+                "README.md"
+            ]
         ),
     ]
 )

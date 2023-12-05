@@ -19,10 +19,6 @@ import AWSLambdaRuntime
 import AsyncHTTPClient
 import Vapor
 
-struct HelloWorld: Content {
-    let message: String
-}
-
 @main
 struct APIGatewayProxyLambda: LambdaHandler {
     typealias Event = APIGatewayRequest
@@ -30,12 +26,7 @@ struct APIGatewayProxyLambda: LambdaHandler {
     
     init(context: LambdaInitializationContext) async throws {
         print("Serverless Swift cold started!")
-
-        let app = VaporProxy.shared.app
-        app.get { req in
-            return HelloWorld(message: "Hello, world!")
-        }
-            
+        App()
         VaporProxy.shared.start()
     }
 
