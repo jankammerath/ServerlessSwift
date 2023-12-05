@@ -24,8 +24,13 @@ struct APIGatewayProxyLambda: LambdaHandler {
     typealias Event = APIGatewayRequest
     typealias Output = APIGatewayResponse
     
+    /*
+        This method is called when the Lambda cold starts
+        and not with every call to the function. If there are
+        operations that you want to execute once the container
+        initializes, do it here.
+    */
     init(context: LambdaInitializationContext) async throws {
-        print("Serverless Swift cold started!")
         App()
         VaporProxy.shared.start()
     }

@@ -21,6 +21,7 @@ class VaporProxy {
     /* singleton instance of the VaporProxy class */
     static let shared = VaporProxy()
     
+    /* instanciate the app with the class */
     var app = Vapor.Application()
     let port = 8585
     private var running = false
@@ -35,13 +36,22 @@ class VaporProxy {
         to the app through this proxy class */
     func start() {
         guard !running else {
-            print("Vapor app is already running, not starting it")
+            // this should never happen as Vapor is started once the
+            // Lambda initializes. It just ensures it really doesn't
+            print("Vapor app is already running, not starting it again")
             return
         }
 
+        // bind to the "lo". By using 127.0.0.1 the underlying Linux will
+        // use its loopback adapter and the request to Vapor will never
+        // enter any network cards or drivers or even the actual network
+        // see: https://tldp.org/LDP/nag/node66.html
         let address = BindAddress.hostname("127.0.0.1", port: 8585)
         app.http.server.configuration.address = address
 
+        /* run the Vapor process async as it otherwise would block
+            the entire Lambda function and it couldn't respond to
+            any requests */
         DispatchQueue.global().async {
             do {
                 self.running = true
@@ -79,9 +89,11 @@ class VaporProxy {
             headers.add(name: key, value: value)
         }
 
+        // Execute the HTTP request against Vapor and exgtract the response
         let httpRequest = try HTTPClient.Request(url: url, method: httpMethod, headers: headers, body: body)
         let response = try await client.execute(request: httpRequest).get()
 
+        // set the body string from the response received from Vapor
         let bodyString = response.body!.getString(at: 0, length: response.body!.readableBytes)
 
         var gatewayResponse = APIGatewayResponse(statusCode: .init(code: response.status.code))

@@ -15,11 +15,23 @@
 */
 import Vapor
 
+/*
+ You can do whatever you want in this file, just make sure
+ to not instanciate the Vapor app, but instead use the instance
+ from the VaporProxy by using "VaporProxy.shared.app"
+*/
+
 struct HelloWorld: Content {
     let message: String
 }
 
+/*
+    This App() function is called in the Handler when it first
+    initializes. Routes and any configuration should be done here.
+    Make sure to retain the App() function or replace it in the Handler.
+*/
 func App() {
+    // this is the Vapor app instance from the Vapor Proxy
     let app = VaporProxy.shared.app
     app.get { req in
         return HelloWorld(message: "Hello, world!")

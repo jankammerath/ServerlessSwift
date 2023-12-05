@@ -2,9 +2,28 @@
 
 This is a boilerplate application that shows how to run a serverless Swift application on AWS Lambda using AWS SAM. The Lambda operates on Linux running on AWS Graviton2 CPUs with an arm64 architecture. It uses a local proxy to interact with the [Vapor](https://vapor.codes/) framework. This code is part of my article [Serverless Swift With Vapor On AWS Using AWS SAM And Lambda](https://medium.com/@jankammerath/serverless-swift-with-vapor-on-aws-using-aws-sam-and-lambda-3bd89bed5325). If you're interested in running Swift code on AWS Lambda, this may serve as boilerplate.
 
-## A note on Vapor
+## How to use it yourself
 
-The vapor integration curently uses the `AsyncHTTPClient` and thus the local loopback on the Lambda instance. Vapor is initialized when the Lambda container first starts making the cold start take around 800-900ms on a 128 MB arm64 container running Amazon Linux 2. There is no measurable performance impact on using the loopback adapter within the VaporProxy class that then sends the HTTP request to the vapor app running on port `8585``.
+You can simply work with the code in `App.swift` inside the `src` folder. The configuration is very simple. Once the Lambda starts, the `App()` function is called which you can use to setup Vapor and your routes. Whenver a request is sent to the Lambda function it'll forward it to the Vapor app using the VaporProxy class.
+
+```swift
+struct HelloWorld: Content {
+    let message: String
+}
+
+/*
+    This App() function is called in the Handler when it first
+    initializes. Routes and any configuration should be done here.
+    Make sure to retain the App() function or replace it in the Handler.
+*/
+func App() {
+    // this is the Vapor app instance from the Vapor Proxy
+    let app = VaporProxy.shared.app
+    app.get { req in
+        return HelloWorld(message: "Hello, world!")
+    }
+}
+```
 
 ## Running locally
 
@@ -17,7 +36,15 @@ sam local start-api --template template.yaml
 
 Note that the performance characteristics of running this application locally using AWS SAM is entirely different from running it on AWS. SAM will use approx 30-40% more memory than the binary will consume with the actual Lambda on AWS. The invocation of SAM will also take more time than it will when actually running on Lambda with API Gateway.
 
-## Sample logs
+## Deploying to AWS
+
+You can deploy the application to AWS using either AWS SAM or CloudFormation. With AWS SAM, you can simply use the `sam deploy --guided` command and SAM will guide you through the deployment of the app. If you want to use CloudFormation instead, you need to put the `bootstrap` binary in `bin/` into a zip file and upload it to the S3 bucket that you want to host the code on. The configuration of `AWS::Lambda::Function` is almost identical to `AWS::Serverless::Function`.
+
+## Performance
+
+The vapor integration curently uses the `AsyncHTTPClient` and thus the local loopback on the Lambda instance. Vapor is initialized when the Lambda container first starts making the cold start take around 800-900ms on a 128 MB arm64 container running Amazon Linux 2. There is no measurable performance impact on using the loopback adapter within the VaporProxy class that then sends the HTTP request to the vapor app running on port `8585``.
+
+### Sample logs
 
 The logs give an insight on the performance of the approx. 117 MB binary file within the Lambda. The Lambda cold start with the binary is a little less than 1 second. The log also shows how Vapor runs through the entire lifecycle of the Lambda and is reused for subsequent requests to the same Lambda container. The memory consumption of 39 MB on a 128 MB instance is perfectly in line with web frameworks of Vapor's scale (e.g. Go Gin). The logs do not show any reasonable performance impact of the usage of the loopback adapter in the VaporProxy class.
 
