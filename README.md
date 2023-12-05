@@ -5,3 +5,12 @@ This is a boilerplate application that shows how to run a serverless Swift appli
 ## A note on Vapor
 
 The vapor integration curently uses the `AsyncHTTPClient` and thus the local loopback on the Lambda instance. Also Vapor does not seem to be initialized when the Lambda cold starts, but with every invocation of the Lambda. That still needs fixing and testing. 
+
+## Running locally
+
+To run the application locally with AWS SAM, you can use the `sam-launch.sh` script or run it yourself. Make sure to build the application before trying to run or re-run it. 
+
+```bash
+make build
+sam local start-api --template template.yaml
+`

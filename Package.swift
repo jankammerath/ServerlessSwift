@@ -3,6 +3,11 @@ import PackageDescription
 
 let package = Package(
     name: "ServerlessSwift",
+    platforms: [
+        /* intended target is Linux, just dropping this here as
+            the Package.swift does not support Linux, yet. */
+        .macOS(.v14),
+    ],
     products: [
         .executable(name: "ServerlessSwift", targets: ["ServerlessSwift"])
     ],
