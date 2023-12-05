@@ -4,7 +4,7 @@ This is a boilerplate application that shows how to run a serverless Swift appli
 
 ## A note on Vapor
 
-The vapor integration curently uses the `AsyncHTTPClient` and thus the local loopback on the Lambda instance. Also Vapor does not seem to be initialized when the Lambda cold starts, but with every invocation of the Lambda. That still needs fixing and testing. 
+The vapor integration curently uses the `AsyncHTTPClient` and thus the local loopback on the Lambda instance. Vapor is initialized when the Lambda container first starts making the cold start take around 800-900ms on a 128 MB arm64 container running Amazon Linux 2. There is no measurable performance impact on using the loopback adapter within the VaporProxy class that then sends the HTTP request to the vapor app running on port `8585``.
 
 ## Running locally
 
@@ -14,6 +14,8 @@ To run the application locally with AWS SAM, you can use the `sam-launch.sh` scr
 make build
 sam local start-api --template template.yaml
 ```
+
+Note that the performance characteristics of running this application locally using AWS SAM is entirely different from running it on AWS. SAM will use approx 30-40% more memory than the binary will consume with the actual Lambda on AWS. The invocation of SAM will also take more time than it will when actually running on Lambda with API Gateway.
 
 ## Sample logs
 
