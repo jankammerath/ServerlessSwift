@@ -14,3 +14,55 @@ To run the application locally with AWS SAM, you can use the `sam-launch.sh` scr
 make build
 sam local start-api --template template.yaml
 ```
+
+## Sample logs
+
+The logs give an insight on the performance of the approx. 117 MB binary file within the Lambda. The Lambda cold start with the binary is a little less than 1 second. The log also shows how Vapor runs through the entire lifecycle of the Lambda and is reused for subsequent requests to the same Lambda container.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|   timestamp   |                                                                                 message                                                                                  |
+|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1701787103739 | INIT_START Runtime Version: provided:al2.v27 Runtime Version ARN: arn:aws:lambda:eu-central-1::runtime:2314d913d88add4107e4119c38e7eff2379525a1b70c242c2fbbd5f44af167a2  |
+| 1701787103873 | 2023-12-05T14:38:23+0000 info Lambda : [AWSLambdaRuntimeCore] lambda runtime starting with LambdaConfiguration                                                           |
+| 1701787103873 | General(logLevel: info))                                                                                                                                                 |
+| 1701787103873 | Lifecycle(id: 92791806392, maxTimes: 0, stopSignal: TERM)                                                                                                                |
+| 1701787103873 | RuntimeEngine(ip: 127.0.0.1, port: 9001, requestTimeout: nil                                                                                                             |
+| 1701787103911 | Serverless Swift cold started!                                                                                                                                           |
+| 1701787103911 | 2023-12-05T14:38:23+0000 notice codes.vapor.application : [Vapor] Server starting on http://127.0.0.1:8585                                                               |
+| 1701787103915 | START RequestId: e02bf583-11eb-44f2-8d98-07fc237d7e66 Version: $LATEST                                                                                                   |
+| 1701787103971 | 2023-12-05T14:38:23+0000 info codes.vapor.application : request-id=1ECCFC3A-2850-48D5-AEF6-C2B5BC57F78E [Vapor] GET /                                                    |
+| 1701787104050 | END RequestId: e02bf583-11eb-44f2-8d98-07fc237d7e66                                                                                                                      |
+| 1701787104050 | REPORT RequestId: e02bf583-11eb-44f2-8d98-07fc237d7e66 Duration: 134.84 ms Billed Duration: 310 ms Memory Size: 128 MB Max Memory Used: 38 MB Init Duration: 174.16 ms   |
+| 1701787107561 | START RequestId: efe792b1-e61c-4f0b-911c-9d9971ea8140 Version: $LATEST                                                                                                   |
+| 1701787107562 | 2023-12-05T14:38:27+0000 info codes.vapor.application : request-id=BB06BD73-7FAE-4F72-A919-2FFEA78DA74F [Vapor] GET /                                                    |
+| 1701787107571 | END RequestId: efe792b1-e61c-4f0b-911c-9d9971ea8140                                                                                                                      |
+| 1701787107571 | REPORT RequestId: efe792b1-e61c-4f0b-911c-9d9971ea8140 Duration: 9.96 ms Billed Duration: 10 ms Memory Size: 128 MB Max Memory Used: 39 MB                               |
+| 1701787108545 | START RequestId: 34be4e5f-6a3e-43d2-8abf-ab0d4d5393f5 Version: $LATEST                                                                                                   |
+| 1701787108547 | 2023-12-05T14:38:28+0000 info codes.vapor.application : request-id=594AF1A0-BBDF-41A9-99B5-04D8036FAB83 [Vapor] GET /                                                    |
+| 1701787108550 | END RequestId: 34be4e5f-6a3e-43d2-8abf-ab0d4d5393f5                                                                                                                      |
+| 1701787108550 | REPORT RequestId: 34be4e5f-6a3e-43d2-8abf-ab0d4d5393f5 Duration: 4.41 ms Billed Duration: 5 ms Memory Size: 128 MB Max Memory Used: 39 MB                                |
+| 1701787109485 | START RequestId: 98ae7cc5-519b-46cf-b40a-59db39132c84 Version: $LATEST                                                                                                   |
+| 1701787109486 | 2023-12-05T14:38:29+0000 info codes.vapor.application : request-id=509365D5-C043-4689-A85A-1AB3B15E4265 [Vapor] GET /                                                    |
+| 1701787109489 | END RequestId: 98ae7cc5-519b-46cf-b40a-59db39132c84                                                                                                                      |
+| 1701787109489 | REPORT RequestId: 98ae7cc5-519b-46cf-b40a-59db39132c84 Duration: 3.87 ms Billed Duration: 4 ms Memory Size: 128 MB Max Memory Used: 39 MB                                |
+| 1701787110266 | START RequestId: d8b21815-7be8-41df-b842-9f44aad27ccf Version: $LATEST                                                                                                   |
+| 1701787110268 | 2023-12-05T14:38:30+0000 info codes.vapor.application : request-id=46EF492E-BA96-41B0-B0E2-A950F96FD601 [Vapor] GET /                                                    |
+| 1701787110270 | END RequestId: d8b21815-7be8-41df-b842-9f44aad27ccf                                                                                                                      |
+| 1701787110270 | REPORT RequestId: d8b21815-7be8-41df-b842-9f44aad27ccf Duration: 3.35 ms Billed Duration: 4 ms Memory Size: 128 MB Max Memory Used: 39 MB                                |
+| 1701787110986 | START RequestId: 59d747ac-30fd-426f-801d-b2b49947672b Version: $LATEST                                                                                                   |
+| 1701787110988 | 2023-12-05T14:38:30+0000 info codes.vapor.application : request-id=2F31B2B2-087E-4F37-84D7-85A9319FBFD1 [Vapor] GET /                                                    |
+| 1701787110989 | END RequestId: 59d747ac-30fd-426f-801d-b2b49947672b                                                                                                                      |
+| 1701787110989 | REPORT RequestId: 59d747ac-30fd-426f-801d-b2b49947672b Duration: 2.60 ms Billed Duration: 3 ms Memory Size: 128 MB Max Memory Used: 39 MB                                |
+| 1701787111712 | START RequestId: e475820b-3d58-4c13-978d-33dfb8ab5643 Version: $LATEST                                                                                                   |
+| 1701787111713 | 2023-12-05T14:38:31+0000 info codes.vapor.application : request-id=94ED794E-BCA4-4038-A775-5A08FE5CAE15 [Vapor] GET /                                                    |
+| 1701787111714 | END RequestId: e475820b-3d58-4c13-978d-33dfb8ab5643                                                                                                                      |
+| 1701787111714 | REPORT RequestId: e475820b-3d58-4c13-978d-33dfb8ab5643 Duration: 2.46 ms Billed Duration: 3 ms Memory Size: 128 MB Max Memory Used: 40 MB                                |
+| 1701787126949 | START RequestId: f0acbc2c-942c-476e-8626-a91baebf2150 Version: $LATEST                                                                                                   |
+| 1701787126950 | 2023-12-05T14:38:46+0000 info codes.vapor.application : request-id=43AE11AB-539B-41D7-B8D6-A54778181FC5 [Vapor] GET /                                                    |
+| 1701787126969 | END RequestId: f0acbc2c-942c-476e-8626-a91baebf2150                                                                                                                      |
+| 1701787126969 | REPORT RequestId: f0acbc2c-942c-476e-8626-a91baebf2150 Duration: 20.38 ms Billed Duration: 21 ms Memory Size: 128 MB Max Memory Used: 40 MB                              |
+| 1701787127554 | START RequestId: 8d1b3dd6-dd75-43c1-987f-104a8214f3bc Version: $LATEST                                                                                                   |
+| 1701787127555 | 2023-12-05T14:38:47+0000 info codes.vapor.application : request-id=C265146E-89A9-4D36-AB33-FED4A169994F [Vapor] GET /                                                    |
+| 1701787127570 | END RequestId: 8d1b3dd6-dd75-43c1-987f-104a8214f3bc                                                                                                                      |
+| 1701787127570 | REPORT RequestId: 8d1b3dd6-dd75-43c1-987f-104a8214f3bc Duration: 16.09 ms Billed Duration: 17 ms Memory Size: 128 MB Max Memory Used: 40 MB                              |
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

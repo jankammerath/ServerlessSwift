@@ -5,3 +5,4 @@ bootstrap
 .vscode
 *.toml
 bin
+.DS_Store
