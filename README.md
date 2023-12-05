@@ -13,4 +13,4 @@ To run the application locally with AWS SAM, you can use the `sam-launch.sh` scr
 ```bash
 make build
 sam local start-api --template template.yaml
-`
+```
