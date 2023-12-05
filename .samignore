@@ -1,0 +1,12 @@
+.build
+.swiftpm
+.vscode
+src
+.gitignore
+Makefile
+*.resolved
+*.swift
+*.md
+*.sh
+*.toml
+*.yaml

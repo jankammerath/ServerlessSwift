@@ -13,7 +13,7 @@ Resources:
         Properties:
             Handler: bootstrap
             Runtime: provided.al2
-            CodeUri: .
+            CodeUri: ./bin/
             MemorySize: 128
             Timeout: 30
             Architectures:

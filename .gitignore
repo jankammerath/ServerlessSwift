@@ -3,3 +3,5 @@ bootstrap
 *.resolved
 .swiftpm
 .vscode
+*.toml
+bin
